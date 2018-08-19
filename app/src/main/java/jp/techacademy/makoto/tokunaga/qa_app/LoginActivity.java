@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     tmpMap.put("初期化信号","特に意味なし");
 
-                    favRef.child(myUid).setValue(tmpMap);
+                    favRef.child(myUid).child("First Commit").setValue(tmpMap);
 
                     //+----------------------------------------------------------------------------------+
 

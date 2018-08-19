@@ -11,6 +11,8 @@ public class Question implements Serializable {
     private String mQuestionUid;
     private int mGenre;
     private byte[] mBitmapArray;
+
+
     private ArrayList<Answer> mAnswerArrayList;
 
     public String getTitle() {
@@ -32,6 +34,7 @@ public class Question implements Serializable {
     public String getQuestionUid() {
         return mQuestionUid;
     }
+
     public int getGenre() {
         return mGenre;
     }

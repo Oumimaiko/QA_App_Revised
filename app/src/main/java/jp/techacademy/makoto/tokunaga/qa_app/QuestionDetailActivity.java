@@ -122,18 +122,28 @@ public class QuestionDetailActivity extends AppCompatActivity {
         DatabaseReference tmpDR = FirebaseDatabase.getInstance().getReference();
         tmpDR.child(Const.FavoritePATH)
                 .child(myUid)
-                .child(mQuestion.getQuestionUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Log.d("metaAndroidDataSnapshot",String.valueOf(dataSnapshot));
-                        if(dataSnapshot != null){
-                            //自分のUid直下にQuestionUidが存在している時
-                            //フラグを折り曲げ、星を輝かせる
+                        Log.d("metaAndroidDataSnapshot",String.valueOf(s));
+                        if(mQuestion.getQuestionUid().equals(s)){
                             mflag = true;
                             mFavButton.setImageResource(R.drawable.outline_star_white_24dp);
                         }
                     }
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        Log.d("metaAndroidRemoved",String.valueOf(dataSnapshot));
+                        if(mQuestion.getQuestionUid().equals(dataSnapshot.getKey())){
+                            mflag = true;
+                            mFavButton.setImageResource(R.drawable.outline_star_white_24dp);
+                        }
+                    }
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
                     @Override
                     public void onCancelled(DatabaseError databaseError) { }
                 });
@@ -185,8 +195,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
     // +----------------------------------------------------------------------------------------+
     //自分のUidとるためのメソッド
     private String getMyUid(){
-        FirebaseAuth fba = FirebaseAuth.getInstance();
-        return fba.getCurrentUser().getUid();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return user.getUid();
     }
     // +----------------------------------------------------------------------------------------+
 

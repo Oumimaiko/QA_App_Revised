@@ -136,11 +136,13 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        /*
                         Log.d("metaAndroidRemoved",String.valueOf(dataSnapshot));
                         if(mQuestion.getQuestionUid().equals(dataSnapshot.getKey())){
                             mflag = true;
                             mFavButton.setImageResource(R.drawable.outline_star_white_24dp);
-                        }
+
+                        } */
                     }
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
@@ -166,10 +168,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(mflag){
                     mFavButton.setImageResource(R.drawable.outline_star_border_white_24dp);
+                    mflag = false;
                     String myUid = getMyUid();
                     DatabaseReference tmpDR = FirebaseDatabase.getInstance().getReference();
                     tmpDR.child(Const.FavoritePATH).child(myUid).child(mQuestion.getQuestionUid()).removeValue();
-                    mflag = false;
                 } else {
                     mFavButton.setImageResource(R.drawable.outline_star_white_24dp);
                     mflag = true;

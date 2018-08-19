@@ -211,6 +211,23 @@ public class MainActivity extends AppCompatActivity
             mNavigationView = (NavigationView) findViewById(R.id.nav_view);
             onNavigationItemSelected(mNavigationView.getMenu().getItem(0));
         }
+        // --- ここから ---
+        // 質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す
+        mQuestionArrayList.clear();
+        mAdapter.setQuestionArrayList(mQuestionArrayList);
+        mListView.setAdapter(mAdapter);
+
+        // 選択したジャンルにリスナーを登録する
+        if (mGenreRef != null) {
+            mGenreRef.removeEventListener(mEventListener);
+        }
+
+        if (mGenre != 5) {
+            mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
+            mGenreRef.addChildEventListener(mEventListener);
+        } else {
+            getmFavoriteList();
+        }
 
         setMenuBar();
     }
